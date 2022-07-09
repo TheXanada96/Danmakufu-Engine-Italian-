@@ -11,7 +11,7 @@ Ecco un elenco di modifiche rispetto al Danmakufu originale che potrebbero conse
  * L'estrazione dei dati ora funziona correttamente, consente l'uso di giochi come Hollow Song of Birds di Kaisendo e altri giochi che utilizzano archivi di dati.
  * Le barre laterali a schermo intero ora sono nere rispetto all'onnipresente DNH Grey.
 
-## Requirements
+## Requisiti
  * zlib
 </br>Usate anche [vcpkg](https://github.com/Microsoft/vcpkg) C++ Library Manager.
 
