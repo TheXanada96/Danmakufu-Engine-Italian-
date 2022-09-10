@@ -10,7 +10,7 @@ MainWindow::MainWindow()
 }
 MainWindow::~MainWindow()
 {
-	//コンパイル中なら停止
+	//interrompe se fa la compilazione
 	Stop();
 	Join();
 }
@@ -26,7 +26,7 @@ bool MainWindow::Initialize()
 	this->Attach(hWnd_);
 	ShowWindow(hWnd_, SW_HIDE);
 
-	//Windowを画面の中央に移動
+	//Sposta la finestra al centro dello schermo
 	SetBounds(0, 0, 640, 480);
 	SetWindowText(hWnd_, WINDOW_TITLE.c_str());
 
@@ -38,11 +38,11 @@ bool MainWindow::Initialize()
 	int top = drect.bottom / 2 - (mrect.bottom - mrect.top) / 2;
 	::MoveWindow(hWnd_, left, top, mrect.right - mrect.left, mrect.bottom - mrect.top, TRUE);
 
-	//逆コンパイルボタン
+	//Pulsante di decompilazione
 	buttonDecompile_.Attach(GetDlgItem(hWnd_, IDC_BUTTON_DECOMPILE));
 	buttonDecompile_.SetWindowEnable(false);
 
-	//リスト
+	//Elenco
 	HWND hList = GetDlgItem(hWnd_, IDC_LIST_FILE);
 	DWORD dwStyle = ListView_GetExtendedListViewStyle(hList);
 	dwStyle |= LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES;
