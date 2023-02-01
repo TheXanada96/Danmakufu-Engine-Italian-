@@ -49,16 +49,16 @@ bool MainWindow::Initialize()
 	ListView_SetExtendedListViewStyle(hList, dwStyle);
 	wndListFile_.Attach(hList);
 	wndListFile_.AddColumn(160, COL_FILENAME, L"File");
-	wndListFile_.AddColumn(160, COL_DIRECTORY, L"Directory");
-	wndListFile_.AddColumn(256, COL_FULLPATH, L"Path");
+	wndListFile_.AddColumn(160, COL_DIRECTORY, L"Cartella");
+	wndListFile_.AddColumn(256, COL_FULLPATH, L"Percorso");
 
-	//ステータスバー
+	//Barra di stato
 	wndStatus_.Create(hWnd_);
 	std::vector<int> sizeStatus;
 	sizeStatus.push_back(1600);
 	wndStatus_.SetPartsSize(sizeStatus);
 
-	//設定読み込み
+	//Caricamento delle impostazioni
 	_LoadEnvironment();
 
 	DragAcceptFiles(hWnd_, TRUE);
@@ -89,7 +89,7 @@ LRESULT MainWindow::_WindowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM
 		break;
 	}
 	case WM_DESTROY: {
-		//設定保存
+		//Impostazione Salvataggio
 		_SaveEnvironment();
 		::PostQuitMessage(0);
 		break;
@@ -98,7 +98,7 @@ LRESULT MainWindow::_WindowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM
 	case WM_COMMAND: {
 		int id = wParam & 0xffff;
 		switch (id) {
-		case IDCANCEL: //閉じるボタン
+		case IDCANCEL: //Pulsante di chiusura
 		case ID_MENUITEM_EXIT:
 			::DestroyWindow(hWnd);
 			break;
@@ -118,7 +118,7 @@ LRESULT MainWindow::_WindowProcedure(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM
 
 		case ID_MENUITEM_VERSION: {
 			std::wstring version = WINDOW_TITLE;
-			::MessageBox(hWnd_, version.c_str(), L"Version", MB_OK);
+			::MessageBox(hWnd_, version.c_str(), L"Versione", MB_OK);
 			break;
 		}
 		}
@@ -194,7 +194,7 @@ void MainWindow::_AddFileFromDialog()
 	ofn.hwndOwner = hWnd_;
 	ofn.nMaxFile = MAX_PATH * maxFileCount;
 	ofn.lpstrFile = outFileName;
-	ofn.lpstrTitle = L"ファイルの追加";
+	ofn.lpstrTitle = L"Aggiungere i file";
 	ofn.Flags = OFN_ALLOWMULTISELECT | OFN_EXPLORER | OFN_HIDEREADONLY;
 	if (!GetOpenFileName(&ofn))
 		return;
@@ -202,12 +202,12 @@ void MainWindow::_AddFileFromDialog()
 	wchar_t* endstr = wcschr(outFileName, '\0');
 	wchar_t* nextstr = endstr + 1;
 
-	if (*(nextstr) == L'\0') //選択したファイルが１つ
+	if (*(nextstr) == L'\0') //Un file selezionato.
 	{
 		std::wstring path = outFileName;
 		std::wstring dirBase = PathProperty::GetFileDirectory(path);
 		_AddFile(dirBase, path);
-	} else //複数選択
+	} else //scelta multipla
 	{
 		while (*(nextstr) != L'\0') {
 			endstr = wcschr(nextstr, L'\0');
@@ -308,7 +308,7 @@ bool MainWindow::_IsValidFilePath(std::wstring dirBase, std::wstring path)
 	std::wstring key = _CreateKey(dirBase, path);
 	res &= listFile_.find(key) == listFile_.end();
 	if (!res)
-		Logger::WriteTop(StringUtility::Format(L"ファイルに重複があります[%s]", key.c_str()));
+		Logger::WriteTop(StringUtility::Format(L"Nel file sono presenti dei duplicati.[%s]", key.c_str()));
 	return res;
 }
 std::wstring MainWindow::_CreateKey(std::wstring dirBase, std::wstring path)
