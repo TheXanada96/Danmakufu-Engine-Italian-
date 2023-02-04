@@ -202,7 +202,7 @@ void MainWindow::_AddFileFromDialog()
 	wchar_t* endstr = wcschr(outFileName, '\0');
 	wchar_t* nextstr = endstr + 1;
 
-	if (*(nextstr) == L'\0') //Un file selezionato.
+	if (*(nextstr) == L'\0') //Unico file selezionato.
 	{
 		std::wstring path = outFileName;
 		std::wstring dirBase = PathProperty::GetFileDirectory(path);
@@ -337,8 +337,8 @@ void MainWindow::_StartArchive()
 	ofn.Flags = OFN_EXPLORER | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
 	ofn.nFilterIndex = 2;
 	ofn.lpstrDefExt = L".dat";
-	ofn.lpstrFilter = L"全てのファイル (*.*)\0*.*\0datファイル[*dat]\0*.dat\0";
-	ofn.lpstrTitle = L"アーカイブファイルの作成";
+	ofn.lpstrFilter = L"tutti i files (*.*)\0*.*\0datFile[*dat]\0*.dat\0";
+	ofn.lpstrTitle = L"Creazione di file di archivio";
 	if (GetSaveFileName(&ofn)) {
 		EnableWindow(GetDlgItem(hWnd_, IDC_BUTTON_ADD), FALSE);
 		EnableWindow(GetDlgItem(hWnd_, IDC_BUTTON_DELETE), FALSE);
@@ -356,7 +356,7 @@ void MainWindow::_StartArchive()
 
 void MainWindow::_Run()
 {
-	//アーカイブ実行
+	//Esegui archivio
 	_Archive();
 
 	EnableWindow(GetDlgItem(hWnd_, IDC_EDIT_OPTION), TRUE);
@@ -397,12 +397,12 @@ void MainWindow::_Archive()
 	try {
 		writer.CreateArchiveFile(pathArchive_);
 
-		std::wstring log = StringUtility::Format(L"アーカイブファイル作成完了\n [%s]", pathArchive_.c_str());
+		std::wstring log = StringUtility::Format(L"Completamento della creazione del file di archivio\n [%s]", pathArchive_.c_str());
 		Logger::WriteTop(log);
-		MessageBox(hWnd_, log.c_str(), L"success", MB_OK);
+		MessageBox(hWnd_, log.c_str(), L"Successo", MB_OK);
 	} catch (gstd::wexception e) {
-		std::wstring log = StringUtility::Format(L"アーカイブファイル作成失敗[%s]", e.what());
+		std::wstring log = StringUtility::Format(L"Impossibile creare il file di archivio[%s]", e.what());
 		Logger::WriteTop(log);
-		MessageBox(hWnd_, log.c_str(), L"error", MB_OK);
+		MessageBox(hWnd_, log.c_str(), L"Errore", MB_OK);
 	}
 }

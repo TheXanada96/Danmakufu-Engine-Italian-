@@ -26,7 +26,7 @@ class MainWindow : public WindowBase , public Singleton<MainWindow>, Thread
 		WStatusBar wndStatus_;
 
 		std::wstring pathArchive_;
-		std::set<std::wstring> listFile_;//èdï°ìoò^ÇñhÇÆ
+		std::set<std::wstring> listFile_;//Previene le registrazioni duplicate
 
 		BOOL _DropFiles(WPARAM wParam,LPARAM lParam);
 		void _AddFileFromDialog();
