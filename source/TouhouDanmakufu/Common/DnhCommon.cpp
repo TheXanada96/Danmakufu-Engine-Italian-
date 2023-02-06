@@ -49,7 +49,7 @@ ref_count_ptr<ScriptInformation> ScriptInformation::CreateScriptInformation(std:
 
 		while (scanner.HasNext()) {
 			Token& tok = scanner.Next();
-			if (tok.GetType() == Token::TK_EOF) { //Eofの識別子が来たらファイルの調査終了
+			if (tok.GetType() == Token::TK_EOF) { //Quando viene visualizzato l'identificatore Eof, termina l'indagine sul file
 				break;
 			} else if (tok.GetType() == Token::TK_SHARP) {
 				tok = scanner.Next();
@@ -58,10 +58,10 @@ ref_count_ptr<ScriptInformation> ScriptInformation::CreateScriptInformation(std:
 				if (encoding == Encoding::SHIFT_JIS) {
 					int start = tok.GetStartPointer();
 					int end = tok.GetEndPointer();
-					bShiftJisDanmakufu = scanner.CompareMemory(start, end, "東方弾幕風");
+					bShiftJisDanmakufu = scanner.CompareMemory(start, end, "Touhou Danmakufu");
 				}
 
-				if (element == L"東方弾幕風" || element == L"TouhouDanmakufu" || bShiftJisDanmakufu) {
+				if (element == L"Touhou Danmakufu" || element == L"TouhouDanmakufu" || bShiftJisDanmakufu) {
 					bScript = true;
 					if (scanner.Next().GetType() != Token::TK_OPENB)
 						continue;
@@ -105,7 +105,7 @@ ref_count_ptr<ScriptInformation> ScriptInformation::CreateScriptInformation(std:
 		}
 
 		if (bScript) {
-			//IDがなかった場合はしょうがないのでファイル名にする。
+			//In assenza di una estensione, usare comunque il nome del file..
 			if (idScript.size() == 0)
 				idScript = PathProperty::GetFileNameWithoutExtension(pathScript);
 
@@ -227,7 +227,7 @@ std::vector<ref_count_ptr<ScriptInformation>> ScriptInformation::CreateScriptInf
 		std::multimap<std::wstring, ref_count_ptr<ArchiveFileEntry>> mapEntry = archive.GetEntryMap();
 		std::multimap<std::wstring, ref_count_ptr<ArchiveFileEntry>>::iterator itr = mapEntry.begin();
 		for (; itr != mapEntry.end(); itr++) {
-			//明らかに関係なさそうな拡張子は除外
+			//Esclude le estensioni che sono ovviamente irrilevanti
 			ref_count_ptr<ArchiveFileEntry> entry = itr->second;
 			std::wstring dir = PathProperty::GetFileDirectory(path);
 			std::wstring tPath = dir + entry->GetDirectory() + entry->GetName();
@@ -248,7 +248,7 @@ std::vector<ref_count_ptr<ScriptInformation>> ScriptInformation::CreateScriptInf
 		}
 	} else {
 
-		//明らかに関係なさそうな拡張子は除外
+		//Esclude le estensioni che sono ovviamente irrilevanti
 		std::wstring ext = PathProperty::GetFileExtension(path);
 		if (ScriptInformation::IsExcludeExtention(ext))
 			return res;
@@ -276,7 +276,7 @@ std::vector<ref_count_ptr<ScriptInformation>> ScriptInformation::FindPlayerScrip
 	do {
 		std::wstring name = data.cFileName;
 		if ((data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && (name != L".." && name != L".")) {
-			//ディレクトリ
+			//Cartella
 			std::wstring tDir = dir + name;
 			tDir += L"\\";
 
@@ -289,10 +289,10 @@ std::vector<ref_count_ptr<ScriptInformation>> ScriptInformation::FindPlayerScrip
 		if (wcscmp(data.cFileName, L"..") == 0 || wcscmp(data.cFileName, L".") == 0)
 			continue;
 
-		//ファイル
+		//File
 		std::wstring path = dir + name;
 
-		//スクリプト解析
+		//Analisi di script
 		std::vector<ref_count_ptr<ScriptInformation>> listInfo = CreateScriptInformationList(path, true);
 		for (int iInfo = 0; iInfo < listInfo.size(); iInfo++) {
 			ref_count_ptr<ScriptInformation> info = listInfo[iInfo];
@@ -409,12 +409,12 @@ DnhConfiguration::DnhConfiguration()
 	sizeWindow_ = WINDOW_SIZE_640x480;
 	fpsType_ = FPS_NORMAL;
 
-	//キー登録
+	//Input dei comandi
 	padIndex_ = 0;
-	mapKey_[EDirectInput::KEY_LEFT] = new VirtualKey(DIK_LEFT, 0, 0); //キーボード「←」とジョイパッド「←」を登録
-	mapKey_[EDirectInput::KEY_RIGHT] = new VirtualKey(DIK_RIGHT, 0, 1); //キーボード「→」とジョイパッド「→」を登録
-	mapKey_[EDirectInput::KEY_UP] = new VirtualKey(DIK_UP, 0, 2); //キーボード「↑」とジョイパッド「↑」を登録
-	mapKey_[EDirectInput::KEY_DOWN] = new VirtualKey(DIK_DOWN, 0, 3); //キーボード「↓」とジョイパッド「↓」を登録
+	mapKey_[EDirectInput::KEY_LEFT] = new VirtualKey(DIK_LEFT, 0, 0); //Pulsante sinistra per Tastiera et Controller「←」
+	mapKey_[EDirectInput::KEY_RIGHT] = new VirtualKey(DIK_RIGHT, 0, 1); //Pulsante destra per Tastiera et Controller「→」
+	mapKey_[EDirectInput::KEY_UP] = new VirtualKey(DIK_UP, 0, 2); //Pulsante su per Tastiera et Controller「↑」
+	mapKey_[EDirectInput::KEY_DOWN] = new VirtualKey(DIK_DOWN, 0, 3); //Pulsante giu Tastiera et Controller「↓」
 
 	mapKey_[EDirectInput::KEY_OK] = new VirtualKey(DIK_Z, 0, 5);
 	mapKey_[EDirectInput::KEY_CANCEL] = new VirtualKey(DIK_X, 0, 6);
