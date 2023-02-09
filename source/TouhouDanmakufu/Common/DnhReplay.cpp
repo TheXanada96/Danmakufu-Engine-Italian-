@@ -204,7 +204,7 @@ void ReplayInformation::StageData::ReadRecord(gstd::RecordBuffer& record)
 	listFramePerSecond_.resize(countFramePerSecond);
 	record.GetRecord("listFramePerSecond", &listFramePerSecond_[0], sizeof(float) * listFramePerSecond_.size());
 
-	//共通データ
+	//Dati comuni
 	gstd::RecordBuffer recComMap;
 	record.GetRecordAsRecordBuffer("mapCommonData", recComMap);
 	std::vector<std::string> listKeyCommonData = recComMap.GetKeyList();
@@ -215,7 +215,7 @@ void ReplayInformation::StageData::ReadRecord(gstd::RecordBuffer& record)
 		mapCommonData_[key] = recComData;
 	}
 
-	//自機情報
+	//Informazioni sul giocatore
 	playerScriptID_ = record.GetRecordAsStringW("playerScriptID");
 	playerScriptFileName_ = record.GetRecordAsStringW("playerScriptFileName");
 	playerScriptReplayName_ = record.GetRecordAsStringW("playerScriptReplayName");
@@ -241,7 +241,7 @@ void ReplayInformation::StageData::WriteRecord(gstd::RecordBuffer& record)
 	record.SetRecordAsInteger("countFramePerSecond", countFramePerSecond);
 	record.SetRecord("listFramePerSecond", &listFramePerSecond_[0], sizeof(float) * listFramePerSecond_.size());
 
-	//共通データ
+	//Dati comuni
 	gstd::RecordBuffer recComMap;
 	std::map<std::string, ref_count_ptr<RecordBuffer>>::iterator itrCommonData;
 	for (itrCommonData = mapCommonData_.begin(); itrCommonData != mapCommonData_.end(); itrCommonData++) {
@@ -251,7 +251,7 @@ void ReplayInformation::StageData::WriteRecord(gstd::RecordBuffer& record)
 	}
 	record.SetRecordAsRecordBuffer("mapCommonData", recComMap);
 
-	//自機情報
+	//Informazioni sul giocatore
 	record.SetRecordAsStringW("playerScriptID", playerScriptID_);
 	record.SetRecordAsStringW("playerScriptFileName", playerScriptFileName_);
 	record.SetRecordAsStringW("playerScriptReplayName", playerScriptReplayName_);
