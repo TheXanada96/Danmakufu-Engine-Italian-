@@ -58,10 +58,10 @@ ref_count_ptr<ScriptInformation> ScriptInformation::CreateScriptInformation(std:
 				if (encoding == Encoding::SHIFT_JIS) {
 					int start = tok.GetStartPointer();
 					int end = tok.GetEndPointer();
-					bShiftJisDanmakufu = scanner.CompareMemory(start, end, "東方弾幕風");
+					bShiftJisDanmakufu = scanner.CompareMemory(start, end, "TouhouDanmakufu");
 				}
 
-				if (element == L"東方弾幕風" || element == L"TouhouDanmakufu" || bShiftJisDanmakufu) {
+				if (element == L"TouhouDanmakufu" || element == L"TouhouDanmakufu" || bShiftJisDanmakufu) {
 					bScript = true;
 					if (scanner.Next().GetType() != Token::TK_OPENB)
 						continue;
@@ -276,7 +276,7 @@ std::vector<ref_count_ptr<ScriptInformation>> ScriptInformation::FindPlayerScrip
 	do {
 		std::wstring name = data.cFileName;
 		if ((data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && (name != L".." && name != L".")) {
-			//Directory dei file
+			//Cartella dei file
 			std::wstring tDir = dir + name;
 			tDir += L"\\";
 
@@ -409,12 +409,12 @@ DnhConfiguration::DnhConfiguration()
 	sizeWindow_ = WINDOW_SIZE_640x480;
 	fpsType_ = FPS_NORMAL;
 
-	//Registrazione chiave
+	//Registrazione comandi
 	padIndex_ = 0;
-	mapKey_[EDirectInput::KEY_LEFT] = new VirtualKey(DIK_LEFT, 0, 0); //キーボード「←」とジョイパッド「←」を登録
-	mapKey_[EDirectInput::KEY_RIGHT] = new VirtualKey(DIK_RIGHT, 0, 1); //キーボード「→」とジョイパッド「→」を登録
-	mapKey_[EDirectInput::KEY_UP] = new VirtualKey(DIK_UP, 0, 2); //キーボード「↑」とジョイパッド「↑」を登録
-	mapKey_[EDirectInput::KEY_DOWN] = new VirtualKey(DIK_DOWN, 0, 3); //キーボード「↓」とジョイパッド「↓」を登録
+	mapKey_[EDirectInput::KEY_LEFT] = new VirtualKey(DIK_LEFT, 0, 0); //Pulsante sinistro per Tastiera et Controller「←」
+	mapKey_[EDirectInput::KEY_RIGHT] = new VirtualKey(DIK_RIGHT, 0, 1); //Pulsante destro per Tastiera et Controller「→」
+	mapKey_[EDirectInput::KEY_UP] = new VirtualKey(DIK_UP, 0, 2); //Pulsante alto per Tastiera et Controller「↑」
+	mapKey_[EDirectInput::KEY_DOWN] = new VirtualKey(DIK_DOWN, 0, 3); //Pulsante basso per Tastiera et Controller「↓」
 
 	mapKey_[EDirectInput::KEY_OK] = new VirtualKey(DIK_Z, 0, 5);
 	mapKey_[EDirectInput::KEY_CANCEL] = new VirtualKey(DIK_X, 0, 6);
